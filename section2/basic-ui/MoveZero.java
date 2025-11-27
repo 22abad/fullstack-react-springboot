@@ -1,8 +1,13 @@
 
+// import java.io.PrintStream;
+// import java.io.PrintStream.print;
+
+import java.util.Arrays;
+
 public class MoveZero {
     public static void main(String[] args) {
         int nums[] = {0, 5, 0, 7, 9};
-        moveZeroToFront(nums);
+        //moveZeroToFront(nums);
         // separator
         System.out.println();
         moveZeroToEnd(nums);
@@ -11,24 +16,89 @@ public class MoveZero {
         System.out.println();
         bubbleZeroEnd(nums);
         System.out.println();
+        zeroToLeft(nums);
+        System.out.println();
+        reverse(1234);
+        System.out.println();
+        moveCat(nums);
     }
-    public static void moveZeroToFront(int[] nums) {
+
+    public static int reverse(int x) {
+        int res = 0;
+        while (x != 0) {
+            int digit = x % 10;
+            res = res * 10 + digit;
+            x /= 10;
+        }
+        System.out.println(res);
+        return  res;
+    }
+    
+    public static void zeroToLeft(int[] nums) {
         int n = nums.length;
-        int nonZeroIndex = n - 1;
-        // loop from end, fill each num w/ non-zero num;
+        // since all zero to left, we work form tail
+        // we need a index to record all the non-zero digit
+        int idx = n - 1;
         for (int i = n - 1; i >= 0; i--) {
-           if (nums[i] != 0) {
-               nums[nonZeroIndex] = nums[i];
-               nonZeroIndex--;
-           }
+            if (nums[i] != 0) nums[idx--] = nums[i];
         }
-        // fill remaining with 0
-        while (nonZeroIndex >= 0) {
-           nums[nonZeroIndex] = 0;
-           nonZeroIndex--;
-        }
+        while(idx >= 0) nums[idx--] = 0;
         for (int i : nums) System.out.print(i);
     }
+
+
+    // public static void zeroToLeft(int[] nums) {
+    //     int n = nums.length;
+    //     int newIdx = n - 1;
+    //     for (int i = n - 1; i >= 0; i--) {
+    //         if (nums[i] != 0) nums[newIdx--] = nums[i];
+    //     }
+    //     while (newIdx >= 0) nums[newIdx--] = 0;
+    //     for (int i : nums) System.out.print(i);
+    // }
+    public static void zeroToRight(int[] nums) {
+        int n = nums.length;
+        int newAnchor = 0;
+        for (int i = 0; i < n; i++) {
+            if (nums[i] != 0) nums[newAnchor++] = nums[i];
+        }
+        while (newAnchor < n) nums[newAnchor++] = 0;
+        for (int i : nums) System.out.print(i);
+    }
+        
+    // public static void moveZeroToFront(int[] nums) {
+    //     int n = nums.length;
+    //     int nonZeroIndex = n - 1;
+    //     // loop from end, fill each num w/ non-zero num;
+    //     for (int i = n - 1; i >= 0; i--) {
+    //        if (nums[i] != 0) {
+    //            nums[nonZeroIndex] = nums[i];
+    //            nonZeroIndex--;
+    //        }
+    //     }
+    //     // fill remaining with 0
+    //     while (nonZeroIndex >= 0) {
+    //        nums[nonZeroIndex] = 0;
+    //        nonZeroIndex--;
+    //     }
+    //     for (int i : nums) System.out.print(i);
+    // }
+    public static void moveCat (int[] nums) {
+        int n = nums.length;
+        // int fast = 0;
+        int slow = 0;
+        for (int fast = 0; fast < n; fast++) {
+            while (fast < n && nums[fast] != 0) {
+                int tmp = nums[fast];
+                nums[fast] = nums[slow];
+                nums[slow] = tmp;
+                slow++;
+            }
+        }
+        System.out.print(Arrays.toString(nums));
+    }
+    
+    
     public static void moveZeroToEnd(int[] nums) {
         int n = nums.length;
         int nonZeroIndex = 0;
@@ -84,7 +154,7 @@ public class MoveZero {
         for (int i = 0; i < nums.length; i++) {
             System.out.print(nums[i] + "");
         }
-
     }
+
 
 }
